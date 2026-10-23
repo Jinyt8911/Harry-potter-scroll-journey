@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Required by YouTube Embeds to prevent Error 153 -->
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>The Wizarding Descent — A Literary Chronicle</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=IM+Fell+English:ital@0;1&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-ink: #0f1115;
+            --card-ink: rgba(18, 21, 28, 0.88);
+            --parchment: #e6dec8;
+            --parchment-dim: #a89f89;
+            --brass: #b89b5e;
+            --brass-faint: rgba(184, 155, 94, 0.25);
+            --brass-line: rgba(184, 155, 94, 0.45);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-ink);
+            color: var(--parchment);
+            font-family: 'EB Garamond', Georgia, serif;
+            overflow-x: hidden;
+            transition: background-color 0.8s ease;
+            line-height: 1.75;
+            position: relative;
+        }
+
+        /* Editorial Top Navigation Bar */
+        .editorial-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 58px;
+            background: rgba(12, 14, 18, 0.92);
+            border-bottom: 1px solid var(--brass-faint);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+        }
+
+        .header-brand {
+            font-family: 'Cinzel', serif;
+            font-size: 12px;
+            letter-spacing: 3px;
+            color: var(--brass);
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .chapter-index {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .nav-roman {
+            font-family: 'Cinzel', serif;
+            font-size: 11px;
+            color: var(--parchment-dim);
+            cursor: pointer;
+            letter-spacing: 1px;
+            padding: 4px 6px;
+            border-bottom: 1px solid transparent;
+            transition: all 0.25s ease;
+        }
+
+        .nav-roman:hover,
+        .nav-roman.active {
+            color: var(--brass);
+            border-bottom-color: var(--brass);
+        }
+
+        .header-telemetry {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--parchment-dim);
+        }
+
+        .depth-readout {
+            color: var(--parchment);
+            letter-spacing: 0.5px;
+        }
+
+        .sound-toggle {
+            background: transparent;
+            border: none;
+            color: var(--brass);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            padding: 4px 8px;
+            transition: opacity 0.2s;
+        }
+
+        .sound-toggle:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+
+        /* Subtle Center Hairline */
+        .journey-spine {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 1px;
+            background: linear-gradient(
+                to bottom,
+                transparent 0%,
+                rgba(184, 155, 94, 0.22) 2%,
+                rgba(184, 155, 94, 0.22) 98%,
+                transparent 100%
+            );
+            transform: translateX(-50%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Main Vertical Flow Container */
+        .world-container {
+            position: relative;
+            z-index: 10;
+            max-width: 820px;
+            margin: 0 auto;
+            padding: 60px 24px 160px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            min-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px 20px;
+            background: var(--bg-ink);
+            width: 100%;
+        }
+
+        /* Embedded Wikipedia SVG Logo Styled in Antique Gold */
+        .hero-logo {
+            width: clamp(200px, 38vw, 340px);
+            height: auto;
+            margin-bottom: 24px;
+            filter: brightness(0) saturate(100%) invert(82%) sepia(21%) saturate(540%) hue-rotate(356deg) brightness(95%) contrast(90%);
+            opacity: 0.92;
+            transition: opacity 0.3s ease, transform 0.4s ease;
+        }
+
+        .hero-logo:hover {
+            opacity: 1;
+            transform: scale(1.02);
+        }
+
+        .hero-overline {
+            font-family: 'Cinzel', serif;
+            font-size: 11px;
+            letter-spacing: 4px;
+            color: var(--brass);
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+        .hero-section h1 {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(32px, 5vw, 52px);
+            color: var(--parchment);
+            font-weight: 600;
+            letter-spacing: 3px;
+            line-height: 1.2;
+            margin-bottom: 24px;
+        }
+
+        .hero-rule {
+            width: 80px;
+            height: 1px;
+            background: var(--brass);
+            margin-bottom: 24px;
+        }
+
+        .hero-section p {
+            font-family: 'IM Fell English', serif;
+            font-size: clamp(18px, 2.2vw, 22px);
+            color: var(--parchment-dim);
+            max-width: 580px;
+            line-height: 1.65;
+            font-style: italic;
+        }
+
+        .scroll-cue {
+            margin-top: 64px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--brass);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: 0.75;
+        }
+
+        /* Marginalia / Travel Zones */
+        .travel-zone {
+            width: 100%;
+            height: 460px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        .marginalia-note {
+            pointer-events: auto;
+            max-width: 310px;
+            background: rgba(15, 17, 21, 0.92);
+            border-left: 2px solid var(--brass);
+            padding: 14px 20px;
+            transition: border-color 0.3s ease;
+        }
+
+        .marginalia-note.left {
+            align-self: flex-start;
+        }
+
+        .marginalia-note.right {
+            align-self: flex-end;
+            border-left: none;
+            border-right: 2px solid var(--brass);
+            text-align: right;
+        }
+
+        .marginalia-depth {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--brass);
+            letter-spacing: 1.5px;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .marginalia-title {
+            font-family: 'Cinzel', serif;
+            font-size: 15px;
+            color: var(--parchment);
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .marginalia-desc {
+            font-size: 15px;
+            color: var(--parchment-dim);
+            line-height: 1.55;
+            font-style: italic;
+        }
+
+        /* Chapter Milestone Cards */
+        .milestone-card {
+            width: 100%;
+            background: var(--card-ink);
+            border: 1px solid var(--brass-faint);
+            padding: 48px 52px;
+            position: relative;
+            opacity: 0.25;
+            transform: translateY(24px);
+            transition: opacity 0.6s ease, transform 0.6s ease, border-color 0.4s ease;
+        }
+
+        .milestone-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+            border-color: var(--brass-line);
+        }
+
+        .card-header-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            border-bottom: 1px solid var(--brass-faint);
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+
+        .year-badge {
+            font-family: 'Cinzel', serif;
+            font-size: 11px;
+            letter-spacing: 2.5px;
+            color: var(--brass);
+            text-transform: uppercase;
+        }
+
+        .depth-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--parchment-dim);
+            letter-spacing: 1px;
+        }
+
+        .milestone-card h2 {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(24px, 3.5vw, 32px);
+            color: var(--parchment);
+            font-weight: 600;
+            margin-bottom: 22px;
+            letter-spacing: 0.5px;
+        }
+
+        .chapter-prose {
+            font-size: 19px;
+            line-height: 1.8;
+            color: var(--parchment);
+            margin-bottom: 24px;
+            text-align: justify;
+        }
+
+        .chapter-prose::first-letter {
+            float: left;
+            font-family: 'Cinzel', serif;
+            font-size: 52px;
+            line-height: 0.85;
+            padding-right: 12px;
+            padding-top: 4px;
+            color: var(--brass);
+        }
+
+        /* Teachings of Albus Dumbledore Callout Box */
+        .dumbledore-counsel {
+            margin: 26px 0;
+            padding: 20px 24px;
+            background: rgba(184, 155, 94, 0.05);
+            border-left: 3px solid var(--brass);
+            border-top: 1px solid rgba(184, 155, 94, 0.15);
+            border-right: 1px solid rgba(184, 155, 94, 0.15);
+            border-bottom: 1px solid rgba(184, 155, 94, 0.15);
+            position: relative;
+        }
+
+        .counsel-header {
+            font-family: 'Cinzel', serif;
+            font-size: 10px;
+            letter-spacing: 2.5px;
+            color: var(--brass);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            display: block;
+            font-weight: 600;
+        }
+
+        .counsel-maxim {
+            font-family: 'IM Fell English', serif;
+            font-size: 19px;
+            font-style: italic;
+            color: var(--parchment);
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .counsel-lesson {
+            font-family: 'EB Garamond', Georgia, serif;
+            font-size: 16px;
+            color: var(--parchment-dim);
+            line-height: 1.65;
+        }
+
+        .counsel-lesson strong {
+            color: var(--brass);
+            font-weight: 600;
+        }
+
+        /* Archival Image Plate Styling */
+        .archival-image-frame {
+            margin: 28px 0;
+            border: 1px solid var(--brass);
+            background: #08090c;
+            padding: 12px;
+        }
+
+        .archival-image-frame img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border: 1px solid rgba(184, 155, 94, 0.2);
+            filter: sepia(15%) contrast(103%);
+            transition: filter 0.4s ease;
+        }
+
+        .archival-image-frame img:hover {
+            filter: none;
+        }
+
+        .artifact-index {
+            font-family: 'Cinzel', serif;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            color: var(--parchment-dim);
+            text-transform: uppercase;
+            padding: 12px 0;
+            border-top: 1px solid rgba(184, 155, 94, 0.15);
+            border-bottom: 1px solid rgba(184, 155, 94, 0.15);
+            margin-bottom: 24px;
+        }
+
+        .excerpt-btn {
+            background: transparent;
+            color: var(--brass);
+            border: 1px solid var(--brass-line);
+            padding: 10px 20px;
+            font-family: 'Cinzel', serif;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .excerpt-btn:hover {
+            background: var(--brass);
+            color: var(--bg-ink);
+        }
+
+        .spell-output {
+            margin-top: 20px;
+            padding: 16px 22px;
+            background: rgba(10, 12, 16, 0.65);
+            border-left: 2px solid var(--brass);
+            font-family: 'IM Fell English', serif;
+            font-size: 18px;
+            font-style: italic;
+            color: var(--parchment);
+            display: none;
+        }
+
+        /* Universal Video Frame Styling */
+        .archival-video-frame {
+            margin: 28px 0;
+            border: 1px solid var(--brass);
+            background: #08090c;
+            padding: 12px;
+        }
+
+        .video-meta-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--brass);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid var(--brass-faint);
+        }
+
+        .video-stage {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #000;
+            overflow: hidden;
+        }
+
+        .video-stage iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        .video-caption-bar {
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .video-caption {
+            font-family: 'IM Fell English', serif;
+            font-size: 15px;
+            font-style: italic;
+            color: var(--parchment-dim);
+        }
+
+        .yt-direct-link {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--brass);
+            text-decoration: none;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border: 1px solid var(--brass-faint);
+            padding: 4px 10px;
+            transition: all 0.2s ease;
+        }
+
+        .yt-direct-link:hover {
+            background: var(--brass);
+            color: var(--bg-ink);
+        }
+
+        /* Epilogue Colophon */
+        .epilogue-colophon {
+            margin-top: 80px;
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid var(--brass-faint);
+            width: 100%;
+        }
+
+        .epilogue-colophon .colophon-depth {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--brass);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .epilogue-colophon .colophon-quote {
+            font-family: 'IM Fell English', serif;
+            font-size: 22px;
+            font-style: italic;
+            color: var(--parchment);
+        }
+
+        @media (max-width: 768px) {
+            .chapter-index { display: none; }
+            .editorial-header { padding: 0 16px; }
+            .milestone-card { padding: 32px 22px; }
+            .travel-zone { height: 380px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Editorial Fixed Header -->
+    <header class="editorial-header">
+        <div class="header-brand">The Wizarding Descent</div>
+        <nav class="chapter-index" id="chapter-nav">
+            <span class="nav-roman active" data-target="ch0">Prologue</span>
+            <span class="nav-roman" data-target="ch1">I</span>
+            <span class="nav-roman" data-target="ch2">II</span>
+            <span class="nav-roman" data-target="ch3">III</span>
+            <span class="nav-roman" data-target="ch4">IV</span>
+            <span class="nav-roman" data-target="ch5">V</span>
+            <span class="nav-roman" data-target="ch6">VI</span>
+            <span class="nav-roman" data-target="ch7">VII</span>
+            <span class="nav-roman" data-target="ch8">VIII</span>
+        </nav>
+        <div class="header-telemetry">
+            <span id="era-label">Surrey</span>
+            <span>·</span>
+            <span class="depth-readout" id="depth-counter">0m / 10,000m</span>
+            <button id="audio-toggle" class="sound-toggle">[ Sound: Off ]</button>
+        </div>
+    </header>
+
+    <!-- Subtle Center Vertical Line -->
+    <div class="journey-spine"></div>
+
+    <!-- Main Literary Scroll Container -->
+    <main class="world-container">
+
+        <!-- HERO INTRO (WITH EMBEDDED WIKIPEDIA HARRY POTTER LOGO) -->
+        <section class="hero-section">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Harry_Potter_logo.svg" 
+                 onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Harry_Potter_logo.svg/800px-Harry_Potter_logo.svg.png'"
+                 alt="Harry Potter Crest Logo" 
+                 class="hero-logo">
+            <div class="hero-overline">An Archival Chronicle · Years I–VII</div>
+            <h1>The Complete Wizarding Descent</h1>
+            <div class="hero-rule"></div>
+            <p>A ten-thousand-meter literary progression from the cupboard under the stairs at No. 4 Privet Drive through seven years at Hogwarts to the final confrontation in the Great Hall.</p>
+            <div class="scroll-cue">Scroll Downward to Begin</div>
+        </section>
+
+        <!-- PROLOGUE: 0 METERS -->
+        <article id="ch0" class="milestone-card" data-era="Surrey — No. 4 Privet Drive">
+            <div class="card-header-meta">
+                <span class="year-badge">Prologue · 1991</span>
+                <span class="depth-tag">0 METERS</span>
+            </div>
+            <h2>No. 4 Privet Drive: The Boy Who Lived</h2>
+            <p class="chapter-prose">For ten long years, Harry Potter has slept in a dusty cupboard under the stairs at the Dursleys' house, unaware that across the secret wizarding world, witches and wizards raise their glasses to his name. On his eleventh birthday, hundreds of letters addressed in emerald-green ink flood through the fireplace, and Rubeus Hagrid arrives at the storm-swept hut on the rock to reveal Harry's true heritage as a wizard.</p>
+            
+            <!-- DUMBLEDORE'S TEACHING: PROLOGUE -->
+            <aside class="dumbledore-counsel">
+                <span class="counsel-header">The Headmaster's Counsel · On Humility &amp; Survival</span>
+                <p class="counsel-maxim">True character is forged away from the intoxication of fame, and the scars we carry are reminders of survival rather than emblems of vanity.</p>
+                <p class="counsel-lesson"><strong>The Teaching:</strong> By entrusting the infant Harry to his aunt and uncle rather than allowing him to grow up celebrated as a legend before he could even walk or talk, Dumbledore ensures that Harry develops modesty, resilience, and empathy before stepping into his destiny.</p>
+            </aside>
+
+            <div class="artifact-index">
+                Lightning Scar · Emerald-Ink Acceptance Letter · 11" Holly &amp; Phoenix Feather Wand
+            </div>
+            <button class="excerpt-btn" data-spell-id="0">[ Read Archival Note ]</button>
+            <div id="spell-out-0" class="spell-output"></div>
+        </article>
+
+        <!-- TRAVEL ZONE 0 -> 1 -->
+        <div class="travel-zone">
+            <div class="marginalia-note left">
+                <span class="marginalia-depth">350 METERS</span>
+                <div class="marginalia-title">Hedwig the Snowy Owl</div>
+                <p class="marginalia-desc">Acquired at Eeylops Owl Emporium in Diagon Alley—Harry's steadfast messenger and first birthday gift from Hagrid.</p>
+            </div>
+            <div class="marginalia-note right">
+                <span class="marginalia-depth">700 METERS</span>
+                <div class="marginalia-title">Platform Nine and Three-Quarters</div>
+                <p class="marginalia-desc">Beyond the wrought-iron barrier between platforms nine and ten at King's Cross, where the scarlet steam engine awaits.</p>
+            </div>
+        </div>
+
+        <!-- YEAR 1: 1,000 METERS -->
+        <article id="ch1" class="milestone-card" data-era="Year I — The Underground Chambers">
+            <div class="card-header-meta">
+                <span class="year-badge">Chapter I · Year One</span>
+                <span class="depth-tag">1,000 METERS</span>
+            </div>
+            <h2>The Philosopher's Stone</h2>
+            <p class="chapter-prose">Sorted into Gryffindor and appointed the youngest House Seeker in a century, Harry discovers a three-headed dog guarding a trapdoor on the forbidden third-floor corridor. Alongside Ron Weasley and Hermione Granger, he descends past Devil's Snare, a chamber of winged keys, and Professor McGonagall's life-sized stone chessmen to prevent Professor Quirrell from claiming Nicolas Flamel's stone from the Mirror of Erised.</p>
+
+            <!-- EMBEDDED PHOTO: THE TRIO AND THE CHESS MATCH -->
+            <div class="archival-image-frame">
+                <div class="video-meta-bar">
+                    <span>Archival Plate I · The Underground Chessboard Chamber</span>
+                    <span>Depth: 1,000m</span>
+                </div>
+                <img src="https://media.harrypotterfanzone.com/the-trio-and-the-chess-match-1050x0-c-default.jpg" 
+                     alt="Harry, Ron, and Hermione across Professor McGonagall's giant wizard chessboard"
+                     referrerpolicy="no-referrer"
+                     loading="lazy">
+                <div class="video-caption-bar">
+                    <span class="video-caption">Fig. I — Harry, Ron, and Hermione confronting Professor McGonagall's enchanted stone chessmen.</span>
+                </div>
+            </div>
+
+            <!-- DUMBLEDORE'S TEACHING: YEAR 1 -->
+            <aside class="dumbledore-counsel">
+                <span class="counsel-header">The Headmaster's Counsel · On Dreams, Courage &amp; Love</span>
+                <p class="counsel-maxim">Lingering inside the illusions of longing steals away the living present; true bravery requires standing up to friends as well as foes, anchored by a love that no darkness can corrupt.</p>
+                <p class="counsel-lesson"><strong>The Teaching:</strong> Before the Mirror of Erised, Dumbledore guides Harry away from losing himself in wistful dreams. At the end-of-term feast, he honors Neville Longbottom to show that moral courage among friends is as vital as battlefield valor, and reveals that Lily Potter's selfless sacrifice left an enduring protection in Harry's very skin.</p>
+            </aside>
+
+            <div class="artifact-index">
+                The Third-Floor Trapdoor · McGonagall's Giant Chessboard · The Mirror of Erised
+            </div>
+            <button class="excerpt-btn" data-spell-id="1">[ Inspect the Mirror of Erised ]</button>
+            <div id="spell-out-1" class="spell-output"></div>
+        </article>
+
+        <!-- TRAVEL ZONE 1 -> 2 -->
+        <div class="travel-zone">
+            <div class="marginalia-note left">
+                <span class="marginalia-depth">1,500 METERS</span>
+                <div class="marginalia-title">The Enchanted Ford Anglia</div>
+                <p class="marginalia-desc">Arthur Weasley's airborne turquoise saloon rescues Harry from Privet Drive before colliding with the Whomping Willow.</p>
+            </div>
+            <div class="marginalia-note right">
+                <span class="marginalia-depth">1,900 METERS</span>
+                <div class="marginalia-title">Aragog's Hollow</div>
+                <p class="marginalia-desc">Guided by a trail of spiders deep into the Forbidden Forest, Harry and Ron learn that the ancient monster moves through the castle pipes.</p>
+            </div>
+        </div>
+
+        <!-- YEAR 2: 2,300 METERS -->
+        <article id="ch2" class="milestone-card" data-era="Year II — Subterranean Chamber">
+            <div class="card-header-meta">
+                <span class="year-badge">Chapter II · Year Two</span>
+                <span class="depth-tag">2,300 METERS</span>
+            </div>
+            <h2>The Chamber of Secrets</h2>
+            <p class="chapter-prose">Inscriptions painted along the torchlit corridors warn that the Chamber of Secrets has been opened once more. Discovering he is a Parselmouth capable of speaking to serpents, Harry follows a voice inside the stonework beneath Moaning Myrtle's bathroom. Far below the castle lake, he confronts the preserved sixteen-year-old memory of Tom Marvolo Riddle and slays the ancient Basilisk with the Sword of Godric Gryffindor.</p>
+
+            <!-- EMBEDDED PHOTO: THE CHAMBER OF SECRETS HAS BEEN OPENED -->
+            <div class="archival-image-frame">
+                <div class="video-meta-bar">
+                    <span>Archival Plate II · The Warning on the Corridor Wall</span>
+                    <span>Depth: 2,300m</span>
+                </div>
+                <img src="https://media.harrypotterfanzone.com/the-chamber-of-secrets-has-been-opened-1050x0-c-default.jpg" 
+                     alt="The Chamber of Secrets has been opened warning written on the Hogwarts corridor wall"
+                     referrerpolicy="no-referrer"
+                     loading="lazy">
+                <div class="video-caption-bar">
+                    <span class="video-caption">Fig. II — The ominous inscription discovered along the torchlit Hogwarts corridor announcing that the Chamber of Secrets has been opened.</span>
+                </div>
+            </div>
+
+            <!-- DUMBLEDORE'S TEACHING: YEAR 2 -->
+            <aside class="dumbledore-counsel">
+                <span class="counsel-header">The Headmaster's Counsel · On Free Will Over Bloodline</span>
+                <p class="counsel-maxim">A person's true nature is revealed not by inherited abilities or outward similarities, but by the deliberate moral choices they make.</p>
+                <p class="counsel-lesson"><strong>The Teaching:</strong> When Harry worries that speaking Parseltongue and nearly being placed in Slytherin make him akin to Tom Riddle, Dumbledore reassures him that innate talents do not dictate character. Because Harry chose loyalty and courage, only a true Gryffindor could have summoned Godric's sword from the Sorting Hat.</p>
+            </aside>
+
+            <div class="artifact-index">
+                Parseltongue Whispers · Tom Riddle's Pocket Diary · Sword of Godric Gryffindor
+            </div>
+            <button class="excerpt-btn" data-spell-id="2">[ Examine Riddle's Diary ]</button>
+            <div id="spell-out-2" class="spell-output"></div>
+        </article>
+
+        <!-- TRAVEL ZONE 2 -> 3 -->
+        <div class="travel-zone">
+            <div class="marginalia-note left">
+                <span class="marginalia-depth">2,850 METERS</span>
+                <div class="marginalia-title">The Marauder's Map</div>
+                <p class="marginalia-desc">An enchanted parchment penned by Moony, Wormtail, Padfoot, and Prongs, charting every hidden passage within Hogwarts.</p>
+            </div>
+            <div class="marginalia-note right">
+                <span class="marginalia-depth">3,300 METERS</span>
+                <div class="marginalia-title">Buckbeak the Hippogriff</div>
+                <p class="marginalia-desc">A proud creature of eagle and horse who bows in the paddock before carrying Sirius Black to freedom from the West Tower.</p>
+            </div>
+        </div>
+
+        <!-- YEAR 3: 3,700 METERS -->
+        <article id="ch3" class="milestone-card" data-era="Year III — The Shrieking Shack">
+            <div class="card-header-meta">
+                <span class="year-badge">Chapter III · Year Three</span>
+                <span class="depth-tag">3,700 METERS</span>
+            </div>
+            <h2>The Prisoner of Azkaban</h2>
+            <p class="chapter-prose">Sirius Black escapes the island fortress of Azkaban, bringing the guards of the prison—soul-chilling Dementors—to the boundaries of Hogwarts. Beneath the roots of the Whomping Willow inside the Shrieking Shack, Harry learns that Sirius is his innocent godfather, and that Peter Pettigrew betrayed James and Lily Potter. Turning back three hours with Hermione's Time-Turner, Harry conjures a corporeal silver stag across the dark water.</p>
+
+            <!-- EMBEDDED PHOTO: SIRIUS BLACK SIGHTED -->
+            <div class="archival-image-frame">
+                <div class="video-meta-bar">
+                    <span>Archival Plate III · Daily Prophet Dispatch: Sirius Black Sighted</span>
+                    <span>Depth: 3,700m</span>
+                </div>
+                <img src="https://media.harrypotterfanzone.com/sirius-black-sighted-1050x0-c-default.jpg" 
+                     alt="Sirius Black sighted notice and fugitives report"
+                     referrerpolicy="no-referrer"
+                     loading="lazy">
+                <div class="video-caption-bar">
+                    <span class="video-caption">Fig. III — Ministry of Magic alerts and headlines reporting the sighting of Azkaban fugitive Sirius Black near Hogwarts.</span>
+                </div>
+            </div>
+
+            <!-- DUMBLEDORE'S TEACHING: YEAR 3 -->
+            <aside class="dumbledore-counsel">
+                <span class="counsel-header">The Headmaster's Counsel · On Light, Mercy &amp; Enduring Presence</span>
+                <p class="counsel-maxim">Solace can be kindled even in the bleakest hour if one remembers to seek the light, and those who love us remain alive within our actions.</p>
+                <p class="counsel-lesson"><strong>The Teaching:</strong> Amid the encroaching chill of the Dementors, Dumbledore teaches that hope is an active choice. Later, he explains that Harry's stag Patronus proves his father lives on within him, and that Harry's decision to spare Peter Pettigrew's life forged a profound magical bond of mercy deeper than vengeance.</p>
+            </aside>
+
+            <div class="artifact-index">
+                Messrs Moony, Wormtail, Padfoot &amp; Prongs · The Time-Turner · Prongs Patronus
+            </div>
+            <button class="excerpt-btn" data-spell-id="3">[ Invoke the Patronus Charm ]</button>
+            <div id="spell-out-3" class="spell-output"></div>
+        </article>
+
+        <!-- TRAVEL ZONE 3 -> 4 -->
+        <div class="travel-zone">
+            <div class="marginalia-note left">
+                <span class="marginalia-depth">4,200 METERS</span>
+                <div class="marginalia-title">The Hungarian Horntail</div>
+                <p class="marginalia-desc">Summoning his Firebolt broomstick across the castle grounds, Harry outflies the dragon to retrieve the golden egg.</p>
+            </div>
+            <div class="marginalia-note right">
+                <span class="marginalia-depth">4,650 METERS</span>
+                <div class="marginalia-title">The Black Lake Ruins</div>
+                <p class="marginalia-desc">Descending into the cold depths with Gillyweed during the Second Task to recover what was taken by the Merpeople.</p>
+            </div>
+        </div>
+
+        <!-- YEAR 4: 5,100 METERS -->
+        <article id="ch4" class="milestone-card" data-era="Year IV — Little Hangleton">
+            <div class="card-header-meta">
+                <span class="year-badge">Chapter IV · Year Four</span>
+                <span class="depth-tag">5,100 METERS</span>
+            </div>
+            <h2>The Goblet of Fire</h2>
+            <p class="chapter-prose">When the wooden Goblet of Fire unexpectedly yields Harry's name as a fourth Triwizard Champion, he is bound by magical contract to endure three perilous tasks. Reaching the center of the overgrown hedge maze alongside Cedric Diggory, the two touch the Triwizard Cup together—unaware it has been turned into a Portkey bound for Little Hangleton graveyard, where Lord Voldemort reclaims his physical body.</p>
+
+            <!-- EMBEDDED PHOTO: BARTY CROUCH JR CAST THE DARK MARK -->
+            <div class="archival-image-frame">
+                <div class="video-meta-bar">
+                    <span>Archival Plate IV · Casting of the Dark Mark</span>
+                    <span>Depth: 5,100m</span>
+                </div>
+                <img src="https://media.harrypotterfanzone.com/barty-crouch-jr-cast-the-dark-mark-1050x0-c-default.jpg" 
+                     alt="Barty Crouch Jr. casting the Dark Mark into the night sky"
+                     referrerpolicy="no-referrer"
+                     loading="lazy">
+                <div class="video-caption-bar">
+                    <span class="video-caption">Fig. IV — Barty Crouch Jr. conjuring the blazing skull-and-serpent Dark Mark into the night sky at the Quidditch World Cup woods.</span>
+                </div>
+            </div>
+
+            <!-- DUMBLEDORE'S TEACHING: YEAR 4 -->
+            <aside class="dumbledore-counsel">
+                <span class="counsel-header">The Headmaster's Counsel · On Unity &amp; Standing for Truth</span>
+                <p class="counsel-maxim">When dark times return, every conscience must choose between what is honorable and what is merely convenient; only unity across all divisions can withstand tyranny.</p>
+                <p class="counsel-lesson"><strong>The Teaching:</strong> Refusing the Ministry's pressure to conceal Voldemort's return, Dumbledore honors Cedric Diggory by speaking the unvarnished truth to the students. He counsels that differences of language, custom, and origin fade away whenever open hearts unite around a shared moral purpose.</p>
+            </aside>
+
+            <div class="artifact-index">
+                The Triwizard Cup Portkey · Ritual of Little Hangleton · Priori Incantatem
+            </div>
+            <button class="excerpt-btn" data-spell-id="4">[ Record Priori Incantatem ]</button>
+            <div id="spell-out-4" class="spell-output"></div>
+        </article>
+
+        <!-- TRAVEL ZONE 4 -> 5 -->
+        <div class="travel-zone">
+            <div class="marginalia-note left">
+                <span class="marginalia-depth">5,600 METERS</span>
+                <div class="marginalia-title">The Room of Requirement</div>
+                <p class="marginalia-desc">Behind the seventh-floor wall opposite the tapestry of Barnabas the Barmy, a hidden sanctuary opens for Dumbledore's Army.</p>
+            </div>
+            <div class="marginalia-note right">
+                <span class="marginalia-depth">6,050 METERS</span>
+                <div class="marginalia-title">Flight of the Thestrals</div>
+                <p class="marginalia-desc">Skeletal winged horses—visible only to those who have seen death—carry six students southward through the night toward London.</p>
+            </div>
+        </div>
+
+        <!-- YEAR 5: 6,500 METERS -->
+        <article id="ch5" class="milestone-card" data-era="Year V — Department of Mysteries">
+            <div class="card-header-meta">
+                <span class="year-badge">Chapter V · Year Five</span>
+                <span class="depth-tag">6,500 METERS</span>
+            </div>
+            <h2>The Order of the Phoenix</h2>
+            <p class="chapter-prose">While the Ministry of Magic denies Voldemort's return and installs Dolores Umbridge as High Inquisitor of Hogwarts, Harry teaches defensive magic in secret. Drawn by a planted vision into the subterranean Hall of Prophecy on Level Nine of the Ministry, the students confront masked Death Eaters, Sirius Black falls beyond the stone Veil, and Albus Dumbledore duels Voldemort in the Ministry Atrium.</p>
+
+            <!-- EMBEDDED PHOTO: UMBRIDGE RUNS FROM THE FIRE DRAGON -->
+            <div class="archival-image-frame">
+                <div class="video-meta-bar">
+                    <span>Archival Plate V · Rebellion Against the High Inquisitor</span>
+                    <span>Depth: 6,500m</span>
+                </div>
+                <img src="https://media.harrypotterfanzone.com/umbridge-runs-from-the-fire-dragon-1050x0-c-default.jpg" 
+                     alt="Dolores Umbridge fleeing the Weasley twins' firework dragon in the Great Hall"
+                     referrerpolicy="no-referrer"
+                     loading="lazy">
+                <div class="video-caption-bar">
+                    <span class="video-caption">Fig. V — High Inquisitor Dolores Umbridge fleeing Fred and George Weasley's conjured firework dragon as her educational decrees shatter behind her.</span>
+                </div>
+            </div>
+
+            <!-- DUMBLEDORE'S TEACHING: YEAR 5 -->
+            <aside class="dumbledore-counsel">
+                <span class="counsel-header">The Headmaster's Counsel · On Grief, Vulnerability &amp; Humanity</span>
+                <p class="counsel-maxim">Attempting to numb sorrow only sharpens its eventual weight; the capacity to feel profound pain is inseparable from the capacity to love.</p>
+                <p class="counsel-lesson"><strong>The Teaching:</strong> In his office after the loss of Sirius Black, Dumbledore openly confesses his own misjudgment in keeping his distance from Harry. He teaches that Harry's grief is not a weakness but his greatest strength—for a heart capable of such deep mourning possesses a humanity that Voldemort can neither comprehend nor endure.</p>
+            </aside>
+
+            <div class="artifact-index">
+                Dumbledore's Army Parchment · Hall of Prophecy · The Stone Veil
+            </div>
+            <button class="excerpt-btn" data-spell-id="5">[ Transcribe the Prophecy ]</button>
+            <div id="spell-out-5" class="spell-output"></div>
+        </article>
+
+        <!-- TRAVEL ZONE 5 -> 6 -->
+        <div class="travel-zone">
+            <div class="marginalia-note left">
+                <span class="marginalia-depth">7,000 METERS</span>
+                <div class="marginalia-title">Felix Felicis</div>
+                <p class="marginalia-desc">Molten gold potion brewed via the cramped marginalia of the Half-Blood Prince's copy of Advanced Potion-Making.</p>
+            </div>
+            <div class="marginalia-note right">
+                <span class="marginalia-depth">7,450 METERS</span>
+                <div class="marginalia-title">The Stone Pensieve</div>
+                <p class="marginalia-desc">Immersed in silver vials of memory, Dumbledore and Harry trace Tom Riddle's obsession with splitting his soul into seven pieces.</p>
+            </div>
+        </div>
+
+        <!-- YEAR 6: 7,900 METERS -->
+        <article id="ch6" class="milestone-card" data-era="Year VI — The Crystal Sea Cave">
+            <div class="card-header-meta">
+                <span class="year-badge">Chapter VI · Year Six</span>
+                <span class="depth-tag">7,900 METERS</span>
+            </div>
+            <h2>The Half-Blood Prince</h2>
+            <p class="chapter-prose">Guided by an old textbook annotated by the "Half-Blood Prince," Harry assists Dumbledore in uncovering the secret of Voldemort's immortality: six Horcruxes housing fragments of his mutilated soul. After crossing a subterranean cavern lake swarming with Inferi to claim Salazar Slytherin's Locket, they return to a besieged castle where Severus Snape fulfills his vow atop the Astronomy Tower.</p>
+
+            <!-- EMBEDDED PHOTO: DUMBLEDORE'S FIRESTORM -->
+            <div class="archival-image-frame">
+                <div class="video-meta-bar">
+                    <span>Archival Plate VI · The Inferi Cavern Firestorm</span>
+                    <span>Depth: 7,900m</span>
+                </div>
+                <img src="https://media.harrypotterfanzone.com/dumbledores-firestorm-600x0-c-default.jpg" 
+                     alt="Albus Dumbledore conjuring a towering ring of fire inside the crystal cave"
+                     referrerpolicy="no-referrer"
+                     loading="lazy">
+                <div class="video-caption-bar">
+                    <span class="video-caption">Fig. VI — Albus Dumbledore wielding a tempest of flame across the subterranean lake to drive back the army of Inferi.</span>
+                </div>
+            </div>
+
+            <!-- DUMBLEDORE'S TEACHING: YEAR 6 -->
+            <aside class="dumbledore-counsel">
+                <span class="counsel-header">The Headmaster's Counsel · On Mortality &amp; Moral Agency</span>
+                <p class="counsel-maxim">Tyrants manufacture their own nemeses; it is only the unknown that mortals fear when looking upon death and darkness.</p>
+                <p class="counsel-lesson"><strong>The Teaching:</strong> Through the memories in the Pensieve, Dumbledore demonstrates that Voldemort's terror of death drove him to fracture his own soul. Crucially, Dumbledore liberatingly teaches Harry that he is not bound by the chains of prophecy—Harry will oppose Voldemort not because a glass sphere commanded it, but because his own conscience refuses to rest while evil prevails.</p>
+            </aside>
+
+            <div class="artifact-index">
+                Advanced Potion-Making · Salazar Slytherin's Locket · The Astronomy Tower
+            </div>
+            <button class="excerpt-btn" data-spell-id="6">[ Read the Cave Chronicle ]</button>
+            <div id="spell-out-6" class="spell-output"></div>
+        </article>
+
+        <!-- TRAVEL ZONE 6 -> 7 -->
+        <div class="travel-zone">
+            <div class="marginalia-note left">
+                <span class="marginalia-depth">8,400 METERS</span>
+                <div class="marginalia-title">The Tale of the Three Brothers</div>
+                <p class="marginalia-desc">The Elder Wand, the Resurrection Stone, and the Cloak of Invisibility—the three hallows of Ignotus, Cadmus, and Antioch Peverell.</p>
+            </div>
+            <div class="marginalia-note right">
+                <span class="marginalia-depth">8,850 METERS</span>
+                <div class="marginalia-title">The Lestrange Vault</div>
+                <p class="marginalia-desc">Escaping the deepest caverns beneath Gringotts Wizarding Bank on the back of a blind Ukrainian Ironbelly dragon.</p>
+            </div>
+        </div>
+
+        <!-- YEAR 7: 9,200 METERS -->
+        <article id="ch7" class="milestone-card" data-era="Year VII — The Horcrux Hunt">
+            <div class="card-header-meta">
+                <span class="year-badge">Chapter VII · Year Seven</span>
+                <span class="depth-tag">9,200 METERS</span>
+            </div>
+            <h2>The Deathly Hallows</h2>
+            <p class="chapter-prose">Forsaking their final year at Hogwarts, Harry, Ron, and Hermione travel in hiding across Britain to locate and destroy the remaining Horcruxes: Slytherin's Locket, Hufflepuff's Cup, and Ravenclaw's Diadem. Amid the Battle of Hogwarts, Severus Snape's parting memories in the Pensieve reveal his enduring devotion to Lily Potter and the truth that Harry himself carries an unintended fragment of Voldemort's soul.</p>
+
+            <!-- EMBEDDED PHOTO: DEATH EATERS CONVERGE ON THE LOVEGOOD HOUSE -->
+            <div class="archival-image-frame">
+                <div class="video-meta-bar">
+                    <span>Archival Plate VII · Ambush at the Lovegood Residence</span>
+                    <span>Depth: 9,200m</span>
+                </div>
+                <img src="https://media.harrypotterfanzone.com/death-eaters-converge-on-the-lovegood-house-1050x0-c-default.jpg" 
+                     alt="Death Eaters converging upon Xenophilius Lovegood's hilltop tower"
+                     referrerpolicy="no-referrer"
+                     loading="lazy">
+                <div class="video-caption-bar">
+                    <span class="video-caption">Fig. VII — Death Eaters descending upon Xenophilius Lovegood's hilltop home after the trio learns the symbol of the Deathly Hallows.</span>
+                </div>
+            </div>
+
+            <!-- DUMBLEDORE'S TEACHING: YEAR 7 -->
+            <aside class="dumbledore-counsel">
+                <span class="counsel-header">The Headmaster's Counsel · On the True Master of Death</span>
+                <p class="counsel-maxim">Compassion belongs not to the departed, who are beyond harm, but to the living—and above all to those who walk through life without love.</p>
+                <p class="counsel-lesson"><strong>The Teaching:</strong> By bequeathing the Tales of Beedle the Bard and the Golden Snitch to the trio, Dumbledore guides Harry to understand that the true Master of Death does not seek to conquer or flee mortality through invincible weapons, but accepts mortality willingly out of love to shield others.</p>
+            </aside>
+
+            <div class="artifact-index">
+                Rowena Ravenclaw's Diadem · The Prince's Tale · The Walk into the Forest
+            </div>
+            <button class="excerpt-btn" data-spell-id="7">[ Inspect the Golden Snitch ]</button>
+            <div id="spell-out-7" class="spell-output"></div>
+        </article>
+
+        <!-- FINAL TRAVEL ZONE -->
+        <div class="travel-zone" style="height: 360px;">
+            <div class="marginalia-note left">
+                <span class="marginalia-depth">9,650 METERS</span>
+                <div class="marginalia-title">The Slaying of Nagini</div>
+                <p class="marginalia-desc">Drawing Gryffindor's ruby-hilted sword from the burning Sorting Hat, Neville Longbottom destroys the final Horcrux in a single stroke.</p>
+            </div>
+        </div>
+
+        <!-- FINALE: 10,000 METERS (PHOTO PLATE + YOUTUBE EMBED) -->
+        <article id="ch8" class="milestone-card" data-era="10,000m Finale — The Great Hall">
+            <div class="card-header-meta">
+                <span class="year-badge">Chapter VIII · May 2, 1998</span>
+                <span class="depth-tag">10,000 METERS</span>
+            </div>
+            <h2>The Flaw in the Plan: The Final Duel</h2>
+            <p class="chapter-prose">Having walked willingly into the Forbidden Forest to meet his death and returned from the quiet mist of King's Cross, Harry confronts Tom Riddle inside the Great Hall as the morning sun breaks over the battered stones of Hogwarts. Circling one another before the assembled survivors, Harry reveals that the Elder Wand's true allegiance belongs not to Voldemort, who took it from Dumbledore's tomb, but to Harry himself, who disarmed Draco Malfoy months earlier. When the Dark Lord casts his final Killing Curse, the wand refuses to strike its true master—rebounding against Harry's disarming charm as the Elder Wand spins high through the air into Harry's waiting hand.</p>
+
+            <!-- EMBEDDED PHOTO: THE ORDER OF THE PHOENIX PREPARES TO FIGHT -->
+            <div class="archival-image-frame">
+                <div class="video-meta-bar">
+                    <span>Archival Plate VIII · The Order of the Phoenix Prepares to Fight</span>
+                    <span>Depth: 10,000m</span>
+                </div>
+                <img src="https://media.harrypotterfanzone.com/the-order-of-the-phoenix-prepares-to-fight-1050x0-c-default.jpg" 
+                     alt="The Order of the Phoenix and Hogwarts defenders standing wands ready in the Great Hall"
+                     referrerpolicy="no-referrer"
+                     loading="lazy">
+                <div class="video-caption-bar">
+                    <span class="video-caption">Fig. VIII-A — The Order of the Phoenix and the defenders of Hogwarts standing united inside the Great Hall for the final battle.</span>
+                </div>
+            </div>
+
+            <!-- DUMBLEDORE'S TEACHING: FINALE -->
+            <aside class="dumbledore-counsel">
+                <span class="counsel-header">The Headmaster's Counsel · On Wisdom Over Power</span>
+                <p class="counsel-maxim">Those best suited to authority are those who have never sought it; the highest wisdom lies in relinquishing supreme power once peace is won.</p>
+                <p class="counsel-lesson"><strong>The Teaching:</strong> Following his final counsel with Dumbledore in the bright stillness of King's Cross, Harry uses the Elder Wand only to mend his own broken holly wand before returning the unbeatable Hallow to Dumbledore's tomb—choosing a quiet, whole life over the temptation of absolute power.</p>
+            </aside>
+
+            <!-- YOUTUBE VIDEO EMBED (VOdO5dssp20) -->
+            <div class="archival-video-frame">
+                <div class="video-meta-bar">
+                    <span>Archival Reel VIII · "Voldi ki pitti"</span>
+                    <span>Duration: 00:17 · 10,000m</span>
+                </div>
+                <div class="video-stage">
+                    <iframe src="https://www.youtube-nocookie.com/embed/VOdO5dssp20?rel=0"
+                            title="Voldi ki pitti"
+                            referrerpolicy="strict-origin-when-cross-origin"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="video-caption-bar">
+                    <span class="video-caption">Fig. VIII-B — The final spell collision and defeat of Voldemort in the castle courtyard.</span>
+                    <a href="http://www.youtube.com/watch?v=VOdO5dssp20" target="_blank" rel="noopener noreferrer" class="yt-direct-link">
+                        [ Open Reel on YouTube ↗ ]
+                    </a>
+                </div>
+            </div>
+
+            <div class="artifact-index">
+                True Master of the Elder Wand · Expelliarmus vs. Avada Kedavra · King's Cross Epilogue
+            </div>
+            <button class="excerpt-btn" data-spell-id="8">[ Read the Final Passage ]</button>
+            <div id="spell-out-8" class="spell-output"></div>
+        </article>
+
+        <!-- EPILOGUE COLOPHON -->
+        <footer class="epilogue-colophon">
+            <div class="colophon-depth">10,000 Meters · King's Cross — Nineteen Years Later</div>
+            <div class="colophon-quote">Nineteen years of quiet peace had followed; the lightning scar troubled Harry no more.</div>
+        </footer>
+
+    </main>
+
+    <script>
+        const spellMessages = {
+            0: "A cyclone of parchment bursts from the fireplace. You unfold a heavy letter written in emerald ink addressed to Harry's cupboard beneath the stairs at 4 Privet Drive, Little Whinging, Surrey.",
+            1: "Carved across the gilded frame is a reversed inscription declaring that the glass shows not your face, but your heart's deepest desire. In the reflection, your double slips the crimson Philosopher's Stone directly into your pocket.",
+            2: "Driving the venomous Basilisk fang into the heart of Tom Riddle's waterlogged diary floods the stone floor with black ink; the memory dissolves in piercing light, and Dobby is freed.",
+            3: "A blinding silver stag erupts from the tip of the holly wand, galloping across the frozen surface of the lake to scatter a hundred Dementors into the night.",
+            4: "When the twin phoenix-feather cores lock together in Little Hangleton graveyard, a dome of golden light arches overhead, summoning the protective echoes of Cedric Diggory, Frank Bryce, Bertha Jorkins, and Lily and James Potter.",
+            5: "The glass sphere shatters upon the stone floor of the Hall of Prophecy, echoing Trelawney's foretelling of the one born as the seventh month dies—marking two destinies bound until only one remains.",
+            6: "Weakened by the emerald potion of the basin, Dumbledore raises his wand to summon a ring of fire across the underground cavern, driving the pale army of Inferi back beneath the black water.",
+            7: "Pressed to your lips at the edge of the Forbidden Forest, the Golden Snitch recognizes the close of the journey and parts its golden shell to reveal the cracked black Resurrection Stone.",
+            8: "A red-gold jet of light meets the green curse in midair. The Elder Wand flies high from Voldemort's hand, spinning against the dawn light of the Great Hall until Harry catches it with the unerring skill of a Seeker."
+        };
+
+        document.querySelectorAll('.excerpt-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const id = btn.getAttribute('data-spell-id');
+                const box = document.getElementById('spell-out-' + id);
+                if (box && spellMessages[id]) {
+                    box.textContent = spellMessages[id];
+                    box.style.display = 'block';
+                }
+                playSpellSound(440, 660, 0.35);
+            });
+        });
+
+        const depthCounter = document.getElementById('depth-counter');
+        const eraLabel = document.getElementById('era-label');
+        const cards = document.querySelectorAll('.milestone-card');
+        const navDots = document.querySelectorAll('.nav-roman');
+
+        navDots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const targetId = dot.getAttribute('data-target');
+                const el = document.getElementById(targetId);
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+        });
+
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+            const fraction = Math.min(1, Math.max(0, scrollTop / maxScroll));
+
+            const meters = Math.floor(fraction * 10000);
+            depthCounter.textContent = meters.toLocaleString() + "m / 10,000m";
+
+            if (fraction < 0.14) {
+                document.body.style.backgroundColor = '#0f1115';
+            } else if (fraction < 0.28) {
+                document.body.style.backgroundColor = '#141118';
+            } else if (fraction < 0.42) {
+                document.body.style.backgroundColor = '#0d1412';
+            } else if (fraction < 0.56) {
+                document.body.style.backgroundColor = '#0e131a';
+            } else if (fraction < 0.70) {
+                document.body.style.backgroundColor = '#161013';
+            } else if (fraction < 0.85) {
+                document.body.style.backgroundColor = '#0d1311';
+            } else {
+                document.body.style.backgroundColor = '#170f0f';
+            }
+
+            const viewportMid = window.innerHeight * 0.58;
+            cards.forEach((card, idx) => {
+                const rect = card.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.88 && rect.bottom > window.innerHeight * 0.08) {
+                    card.classList.add('visible');
+                }
+                if (rect.top <= viewportMid && rect.bottom >= viewportMid * 0.25) {
+                    navDots.forEach(d => d.classList.remove('active'));
+                    if (navDots[idx]) navDots[idx].classList.add('active');
+                    eraLabel.textContent = card.getAttribute('data-era');
+                }
+            });
+        });
+
+        window.dispatchEvent(new Event('scroll'));
+
+        let audioCtx = null;
+        let isPlaying = false;
+        let melodyTimeout = null;
+        let stepIndex = 0;
+
+        const hedwigsTheme = [
+            { f: 493.88, d: 380 }, { f: 659.25, d: 570 }, { f: 783.99, d: 190 }, { f: 739.99, d: 380 },
+            { f: 659.25, d: 760 }, { f: 987.77, d: 380 }, { f: 880.00, d: 1140 }, { f: 739.99, d: 1140 },
+            { f: 659.25, d: 570 }, { f: 783.99, d: 190 }, { f: 739.99, d: 380 }, { f: 622.25, d: 760 },
+            { f: 698.46, d: 380 }, { f: 493.88, d: 1300 }, { f: 493.88, d: 380 }, { f: 659.25, d: 570 },
+            { f: 783.99, d: 190 }, { f: 739.99, d: 380 }, { f: 659.25, d: 760 }, { f: 987.77, d: 380 },
+            { f: 1174.66, d: 760 }, { f: 1108.73, d: 380 }, { f: 1046.50, d: 760 }, { f: 830.61, d: 380 },
+            { f: 1046.50, d: 570 }, { f: 987.77, d: 190 }, { f: 932.33, d: 380 }, { f: 466.16, d: 760 },
+            { f: 783.99, d: 380 }, { f: 659.25, d: 1500 }
+        ];
+
+        function ensureAudioCtx() {
+            const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+            if (!AudioContextClass) return null;
+            if (!audioCtx) audioCtx = new AudioContextClass();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            return audioCtx;
+        }
+
+        function playCelestaNote(freq, durationMs) {
+            try {
+                const ctx = ensureAudioCtx();
+                if (!ctx) return;
+                const now = ctx.currentTime;
+                const osc1 = ctx.createOscillator();
+                const osc2 = ctx.createOscillator();
+                const gain = ctx.createGain();
+
+                osc1.type = 'sine';
+                osc1.frequency.setValueAtTime(freq, now);
+                osc2.type = 'triangle';
+                osc2.frequency.setValueAtTime(freq * 2, now);
+
+                gain.gain.setValueAtTime(0.001, now);
+                gain.gain.linearRampToValueAtTime(0.05, now + 0.02);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + (durationMs / 1000) + 0.8);
+
+                osc1.connect(gain);
+                osc2.connect(gain);
+                gain.connect(ctx.destination);
+
+                osc1.start(now);
+                osc2.start(now);
+                osc1.stop(now + (durationMs / 1000) + 0.85);
+                osc2.stop(now + (durationMs / 1000) + 0.85);
+            } catch (e) {}
+        }
+
+        function scheduleNextNote() {
+            if (!isPlaying) return;
+            const note = hedwigsTheme[stepIndex];
+            playCelestaNote(note.f, note.d);
+            stepIndex = (stepIndex + 1) % hedwigsTheme.length;
+            melodyTimeout = setTimeout(scheduleNextNote, note.d);
+        }
+
+        function playSpellSound(startFreq = 440, endFreq = 660, duration = 0.35) {
+            try {
+                const ctx = ensureAudioCtx();
+                if (!ctx) return;
+                const now = ctx.currentTime;
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(startFreq, now);
+                osc.frequency.exponentialRampToValueAtTime(endFreq, now + duration * 0.8);
+
+                gain.gain.setValueAtTime(0.04, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(now);
+                osc.stop(now + duration);
+            } catch (e) {}
+        }
+
+        const audioBtn = document.getElementById('audio-toggle');
+        audioBtn.addEventListener('click', () => {
+            if (!isPlaying) {
+                ensureAudioCtx();
+                isPlaying = true;
+                stepIndex = 0;
+                scheduleNextNote();
+                audioBtn.textContent = "[ Sound: On ]";
+            } else {
+                isPlaying = false;
+                clearTimeout(melodyTimeout);
+                audioBtn.textContent = "[ Sound: Off ]";
+            }
+        });
+    </script>
+</body>
+</html>
